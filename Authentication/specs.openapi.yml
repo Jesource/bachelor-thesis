@@ -1,0 +1,112 @@
+openapi: 3.0.0
+info:
+  title: Authentication Microservice API
+  description: Provides endpoints for user registration, login, validation, profile retrieval, logout, and password reset.
+  version: 1.0.0
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Register a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Bad Request (e.g., duplicate username, email or missing fields)
+
+  /api/auth/login:
+    post:
+      summary: Authenticate a user and generate an access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '202':
+          description: Successful login with an access token
+        '401':
+          description: Unauthorized (authentication fails)
+
+  /api/auth/validate-token:
+    get:
+      summary: Validate the user's access token
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token is valid
+        '401':
+          description: Unauthorized (token is invalid or expired)
+
+#  /api/user/profile:
+#    get:
+#      summary: Retrieve the user's profile information
+#      parameters:
+#        - in: header
+#          name: Authorization
+#          required: true
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: User profile data
+#        '401':
+#          description: Unauthorized (token is invalid or expired)
+
+  /api/auth/logout:
+    post:
+      summary: TBD Invalidate the user's access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Successful logout
+
+#  /api/auth/reset-password:
+#    post:
+#      summary: Initiate the password reset process
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              type: object
+#              properties:
+#                email:
+#                  type: string
+#      responses:
+#        '200':
+#          description: Password reset initiated successfully
+#        '404':
+#          description: Not Found (email address not associated with any user)
