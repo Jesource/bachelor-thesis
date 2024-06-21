@@ -1,0 +1,166 @@
+openapi: "3.0.3"
+info:
+  title: "Product_Listing_and_Management API"
+  description: "Product_Listing_and_Management API"
+  version: "1.0.0"
+servers:
+  - url: "https://Product_Listing_and_Management"
+paths:
+  /api/auction-service/hi:
+    get:
+      summary: "GET api/auction-service/hi"
+      operationId: "sayHello"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/auction-service/auctions:
+    post:
+      summary: "POST api/auction-service/auctions"
+      operationId: "createAuction"
+      parameters:
+        - name: "jwt"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auction"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+    get:
+      summary: "GET api/auction-service/auctions"
+      operationId: "listAllAuctions"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+  /api/auction-service/auctions/{id}:
+    get:
+      summary: "GET api/auction-service/auctions/{id}"
+      operationId: "getAuctionById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+    put:
+      summary: "PUT api/auction-service/auctions/{id}"
+      operationId: "updateProduct"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "jwt"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auction"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+    delete:
+      summary: "DELETE api/auction-service/auctions/{id}"
+      operationId: "deleteProductById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "jwt"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+components:
+  schemas:
+    UserDetails:
+      type: "object"
+      properties:
+        userId:
+          type: "integer"
+          format: "int64"
+        username:
+          type: "string"
+    Auction:
+      type: "object"
+      properties:
+        startDate:
+          type: "string"
+          format: "date-time"
+        endDate:
+          type: "string"
+          format: "date-time"
+        durationInMs:
+          type: "integer"
+          format: "int64"
+        instantPurchasePrice:
+          type: "number"
+          format: "double"
+        id:
+          type: "string"
+        title:
+          type: "string"
+        description:
+          type: "string"
+        condition:
+          type: "string"
+          enum:
+            - "NEW_WITH_TAGS"
+            - "NEW_WITHOUT_TAGS"
+            - "VERY_GOOD"
+            - "GOOD"
+            - "SATISFACTORY"
+        price:
+          type: "number"
+          format: "double"
+        optionalParameters:
+          type: "string"
+        creator:
+          $ref: "#/components/schemas/UserDetails"
+    Object:
+      type: "object"
+      properties: { }

@@ -1,0 +1,154 @@
+openapi: "3.0.3"
+info:
+  title: "Product_Listing_and_Management API"
+  description: "Product_Listing_and_Management API"
+  version: "1.0.0"
+servers:
+  - url: "https://Product_Listing_and_Management"
+paths:
+  /api/product-service/hi:
+    get:
+      summary: "GET api/product-service/hi"
+      operationId: "sayHello"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/product-service/products:
+    post:
+      summary: "POST api/product-service/products"
+      operationId: "createProduct"
+      parameters:
+        - name: "jwt"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+    get:
+      summary: "GET api/product-service/products"
+      operationId: "listAllProducts"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+  /api/product-service/product/{id}:
+    delete:
+      summary: "DELETE api/product-service/product/{id}"
+      operationId: "deleteProductById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "jwt"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+    get:
+      summary: "GET api/product-service/product/{id}"
+      operationId: "getProductById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+    put:
+      summary: "PUT api/product-service/product/{id}"
+      operationId: "updateProduct"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "jwt"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+components:
+  schemas:
+    UserDetails:
+      type: "object"
+      properties:
+        userId:
+          type: "integer"
+          format: "int64"
+        username:
+          type: "string"
+    Product:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        title:
+          type: "string"
+        description:
+          type: "string"
+        condition:
+          type: "string"
+          enum:
+            - "NEW_WITH_TAGS"
+            - "NEW_WITHOUT_TAGS"
+            - "VERY_GOOD"
+            - "GOOD"
+            - "SATISFACTORY"
+        price:
+          type: "number"
+          format: "double"
+        optionalParameters:
+          type: "string"
+        creator:
+          $ref: "#/components/schemas/UserDetails"
+    Object:
+      type: "object"
+      properties: { }
