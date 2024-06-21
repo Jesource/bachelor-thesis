@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #c0e2ff;
+        }
+
+        td span {
+            display: inline-block;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        td span[title]::after {
+            content: attr(title);
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: normal;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        td span[title]:hover::after {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Container for vertical distribution */
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align vertically */
+            justify-content: space-between; /* Distribute divs vertically */
+            width: 90%;
+            height: 100%;
+        }
+
+        /* Individual divs */
+        .vertical-div {
+            text-align: center;
+            margin: 5px;
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="vertical-container">
+    <div class="vertical-div">
+        <h1>Product List</h1>
+    </div>
+    <br>
+    <div class="vertical-div">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Condition</th>
+                <th>Price</th>
+                <th>Creator</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td>
+                    <a th:href="@{'/products/' + ${product.id}}" th:text="${product.id}"></a>
+                </td>
+                <td th:text="${product.title}"></td>
+                <td th:text="${
+            #strings.length(product.description) > 20
+                ? #strings.substring(product.description, 0, 20) + '...'
+                : product.description}"></td>
+                <td th:text="${product.condition}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.creator.username}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

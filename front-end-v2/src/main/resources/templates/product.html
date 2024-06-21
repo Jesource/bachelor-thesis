@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Details</title>
+    <style>
+        /* Apply styles to the product-details section */
+        .product-details {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 20px;
+            border-radius: 5px;
+        }
+
+        /* Style the optional parameters list */
+        .product-details ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        /* Style the product-not-found section */
+        .product-not-found {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Go Back button style */
+        .go-back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${product != null}" class="product-details">
+    <h1 th:text="${product.title}">Product Title</h1>
+    <p th:text="${product.description}">Product Description</p>
+    <p th:text="'Condition: ' + ${product.condition}">Condition</p>
+    <p th:text="'Price: $' + ${product.price}">Price</p>
+
+    <!-- Optional Parameters (if available) -->
+    <div th:if="${product.optionalParameters != null}">
+        <h2>Optional Parameters:</h2>
+        <ul>
+            <li th:each="optionalParam : ${product.optionalParameters}">
+                <span th:text="${optionalParam.name}"></span>: <span th:text="${optionalParam.value}"></span>
+            </li>
+        </ul>
+    </div>
+
+    <p th:text="'Creator: ' + ${product.creator.username}">Creator</p>
+</div>
+<div th:unless="${product != null}" class="product-not-found">
+    <p>Product not found.</p>
+</div>
+
+<div>
+    <!-- Go Back button -->
+    <a href="#" class="go-back-button" onclick="history.back(); return false;">Go Back</a>
+
+</div>
+</body>
+</html>

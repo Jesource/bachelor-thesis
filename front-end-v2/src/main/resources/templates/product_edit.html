@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form container style */
+        .edit-form {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 20px;
+            width: 50%;
+        }
+
+        /* Form field style */
+        .form-field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Submit button style */
+        .submit-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Style on hover for the submit button */
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Edit Product</h1>
+
+<!-- Edit Product Form -->
+<div class="edit-form">
+    <form th:object="${product}" method="put" th:action="@{'/products/' + ${productId}}">
+        <!-- Product ID (if needed) -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Title Input -->
+        <div class="form-field">
+            <label for="title">Title:</label>
+            <input type="text" id="title" th:field="*{title}" required />
+        </div>
+
+        <!-- Description Input -->
+        <div class="form-field">
+            <label for="description">Description:</label>
+            <input type="text" id="description" th:field="*{description}" required />
+        </div>
+
+        <!-- Condition Input -->
+<!--        <div class="form-field">-->
+<!--            <label for="condition">Condition:</label>-->
+<!--            <input type="text" id="condition" th:field="*{condition}" required />-->
+<!--        </div>-->
+
+        <div class="form-field"><!-- Condition -->
+            <label for="condition">Condition:</label>
+            <select id="condition" th:field="*{condition}">
+                <option value="NEW_WITH_TAGS">New with tags</option>
+                <option value="NEW_WITHOUT_TAGS">New without tags</option>
+                <option value="VERY_GOOD">Very good</option>
+                <option value="GOOD">Good</option>
+                <option value="SATISFACTORY">Satisfactory</option>
+            </select> <br></div>
+
+        <!-- Price Input -->
+        <div class="form-field">
+            <label for="price">Price:</label>
+            <input type="number" id="price" th:field="*{price}" required />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-field">
+            <button type="submit" class="submit-button">Save Changes</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

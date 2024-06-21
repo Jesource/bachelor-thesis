@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* Define the CSS for the div with margins */
+        div {
+            margin: 20px; /* You can adjust the margin values as needed */
+            background-color: lightgray; /* Just for visualization */
+            padding: 10px; /* Optional: Add padding to the div */
+        }
+    </style>
+
+    <script>
+        var paramCounter = 0; // Counter to generate unique IDs
+
+        function addNewParam() {
+            if (paramCounter < 20) { // Limit to 20 pairs
+                paramCounter++; // Increment the counter for unique IDs
+
+                // Create a new div for key-value pair
+                var newDiv = document.createElement("div");
+                newDiv.id = "paramDiv" + paramCounter;
+
+                // Create input field for key
+                var keyInput = document.createElement("input");
+                keyInput.type = "text";
+                keyInput.name = "optionalParameters.key." + paramCounter;
+                keyInput.placeholder = "Key " + paramCounter;
+
+                // Create input field for value
+                var valueInput = document.createElement("input");
+                valueInput.type = "text";
+                valueInput.name = "optionalParameters.value." + paramCounter;
+                valueInput.placeholder = "Value " + paramCounter;
+
+                // Create a button to remove the key-value pair
+                var removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.textContent = "Remove";
+                removeButton.onclick = function () {
+                    // Decrement the counter when removing a div
+                    paramCounter--;
+                    newDiv.parentNode.removeChild(newDiv);
+                };
+
+                // Append the key, value inputs and remove button to the new div
+                newDiv.appendChild(keyInput);
+                newDiv.appendChild(valueInput);
+                newDiv.appendChild(removeButton);
+
+                // Append the new div to the container div
+                document.getElementById("optionalParamsContainer").appendChild(newDiv);
+            } else {
+                alert("Maximum number of parameters reached (20).");
+            }
+        }
+    </script>
+
+    <title>Create New Item</title>
+</head>
+<body>
+<form th:action="@{/submitProduct}" th:object="${product}" method="post">
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+
+    <input type="hidden" th:value="${JwtToken}" id="jwt_token" name="jwt_token" th:id="jwt_token" required />
+
+    <!-- Title -->
+    <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" th:field="*{title}" required/><br>
+    </div>
+
+    <div><!-- Description -->
+        <label for="description">Description:</label>
+        <textarea id="description" th:field="*{description}" required></textarea> <br></div>
+
+    <div><!-- Condition -->
+        <label for="condition">Condition:</label>
+        <select id="condition" th:field="*{condition}">
+            <option value="NEW_WITH_TAGS">New with tags</option>
+            <option value="NEW_WITHOUT_TAGS">New without tags</option>
+            <option value="VERY_GOOD">Very good</option>
+            <option value="GOOD">Good</option>
+            <option value="SATISFACTORY">Satisfactory</option>
+        </select> <br></div>
+
+    <!-- Price -->
+    <label for="price">Price:</label>
+    <input type="number" id="price" th:field="*{price}" min="0.01" step="0.01" required /> <br>
+
+    <!-- Section for optional parameters -->
+    <h3>Optional Parameters</h3>
+    <div id="optionalParamsContainer">
+        <!-- Dynamic key-value pairs will be added here -->
+    </div>
+    <button type="button" onclick="addNewParam()">Add Parameter</button>
+
+
+    <br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

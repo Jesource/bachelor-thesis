@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add and Remove Divs</title>
+</head>
+<body>
+<div id="container">
+    <!-- Initial div with a button -->
+    <div>
+        <button onclick="addNewDiv()">Add New Div</button>
+    </div>
+</div>
+
+<script>
+    var divCounter = 0; // Counter to generate unique IDs
+    function addNewDiv() {
+        if (divCounter < 20) { // Limit to 20 divs
+            divCounter++; // Increment the counter for unique IDs
+
+            // Create a new div element
+            var newDiv = document.createElement("div");
+            newDiv.id = "div" + divCounter; // Set a unique ID for the new div
+
+            // Create two input fields
+            var input1 = document.createElement("input");
+            input1.type = "text";
+            input1.id = "input1_" + divCounter; // Set a unique ID for input1
+            input1.placeholder = "Text Input " + divCounter;
+
+            var input2 = document.createElement("input");
+            input2.type = "text";
+            input1.id = "input1_" + divCounter; // Set a unique ID for input1
+            input2.placeholder = "Text Input " + divCounter;
+
+            // Create a button to remove the div
+            var removeButton = document.createElement("button");
+            removeButton.textContent = "Remove Div";
+            removeButton.onclick = function () {
+                // Decrement the counter when removing a div
+                divCounter--;
+
+                // Remove the parent div when the button is clicked
+                newDiv.parentNode.removeChild(newDiv);
+            };
+
+            // Append the input fields and remove button to the new div
+            newDiv.appendChild(input1);
+            newDiv.appendChild(input2);
+            newDiv.appendChild(removeButton);
+
+            // Append the new div to the container div
+            document.getElementById("container").appendChild(newDiv);
+        } else {
+            alert("Maximum number of divs reached (20).");
+        }
+    }
+</script>
+</body>
+</html>
